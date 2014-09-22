@@ -41,9 +41,13 @@ def move(direction)
 end
 
 def check_break_boundary_corners(board, starting_spot, direction)
-  if (starting_spot[0] == 0 && starting_spot[1] == 0) && (direction == "up-left")
+  max_y = board.length
+  # check top left corner
+  if (starting_spot[0] == 1 && starting_spot[1] == 1) && (direction == "up-left")
     return [[1,1], "down-right"]
-   
+  # check bottom left corner
+  elsif (starting_spot[0] == 1 && starting_spot[1] == max_y) && (direction == "down-left")
+    return [[1, -1], "up-right"]
   end
 end
 
@@ -107,8 +111,13 @@ end
 def test_corner_break
   board = set_board(6,6)
   puts ""
-  test_up_left = (check_break_boundary_corners(board, [0,0], "up-left") == [[1,1], "down-right"])
+  test_up_left = (check_break_boundary_corners(board, [1,1], "up-left") == [[1,1], "down-right"])
   puts "check_break_boundary_corners up-left at [0,0] should return [[1,1], 'down-right': #{test_up_left}" 
+  test_down_left = (check_break_boundary_corners(board, [1,5], "down-left") == [[1,-1], "up-right"])
+  puts "==="
+  print test_down_left
+  puts "==="
+  puts "check_break_boundary_corners bottom-left at [0,0] should return [[1,-1], 'up-right': #{test_down_left}" 
 end
 
 test_board
