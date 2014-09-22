@@ -85,16 +85,16 @@ def test_board
 end
 
 def test_coins
-	board = set_board(3,3)
-	set_coins(board, [0,0,3], [1,2,1])
+	board = set_board(6,6)
+	set_coins(board, [2,2,5], [1,4,7])
 
 	puts "==="
 	print board
 	puts "==="
 
-	test1 = board[0][0] == ["c", 3]
+	test1 = board[1][1] == ["c", 5]
 	puts "Test1 is #{test1}"
-	test2 = board[1][2] == ["c", 1]
+	test2 = board[3][0] == ["c", 7]
 	puts "Test2 is #{test2}"
 end
 
