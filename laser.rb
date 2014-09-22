@@ -40,18 +40,26 @@ def move(direction)
   end
 end
 
-def check_break_boundary(board, starting_spot, move)
+def check_break_boundary_corners(board, starting_spot, direction)
+  if (starting_spot[0] == 0 && starting_spot[1] == 0) && (direction == "up-left")
+    return [[1,1], "down-right"]
+   
+  end
+end
+
+def check_break_boundary(board, starting_spot, direction)
+  moving = move(direction) 
   # check if it breaks left boundary
-  if (starting_spot[0] + move[0]) < 0
+  if (starting_spot[0] + moving[0]) < 0
   	puts "BOUNDARY BROKEN LEFT"
   # check if it breaks right boundary
-  elsif (starting_spot[0] + move[0]) >= (board[0]-1)
+  elsif (starting_spot[0] + moving[0]) >= (board[0]-1)
   	puts "BOUNDARY BROKEN RIGHT"
   # check if it breaks upper boundary
-  elsif (starting_spot[1] + move[1]) < 0
+  elsif (starting_spot[1] + moving[1]) < 0
   	puts "BOUNDARY BROKEN UP"
   # check if it breaks bottom boundary
-  elsif (starting_spot[1] + move[1]) >= (board[1]-1)
+  elsif (starting_spot[1] + moving[1]) >= (board[1]-1)
   	puts "BOUNDARY BROKEN BOTTOM"
   else
   	puts "NOT BROKEN"
@@ -67,13 +75,11 @@ set_coins(gameboard, [2, 2, 5], [2, 4, 1], [1, 4, 7], [2, 3, 8])
 
 print gameboard
 
-movement = move("up")
-
 ip = [3, 4]
 
 puts ""
 
-puts check_break_boundary(board_dim, ip, movement)
+puts check_break_boundary(board_dim, ip, "up")
 
 # Tests
 
@@ -98,9 +104,16 @@ def test_coins
 	puts "Test2 is #{test2}"
 end
 
+def test_corner_break
+  board = set_board(6,6)
+  puts ""
+  test_up_left = (check_break_boundary_corners(board, [0,0], "up-left") == [[1,1], "down-right"])
+  puts "check_break_boundary_corners up-left at [0,0] should return [[1,1], 'down-right': #{test_up_left}" 
+end
+
 test_board
 test_coins
-
+test_corner_break
 
 
 
