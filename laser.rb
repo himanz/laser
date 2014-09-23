@@ -42,6 +42,8 @@ end
 
 def check_break_boundary_corners(board, starting_spot, direction)
   max_y = board.length
+  print "WOO"
+  puts max_y
   # check top left corner
   if (starting_spot[0] == 1 && starting_spot[1] == 1) && (direction == "up-left")
     return [[1,1], "down-right"]
@@ -51,19 +53,30 @@ def check_break_boundary_corners(board, starting_spot, direction)
   end
 end
 
-def check_break_boundary(board, starting_spot, direction)
-  moving = move(direction) 
+def check_break_boundary(board_grid, starting_spot, direction)
+  board_x = board_grid[0] - 1
+  board_y = board_grid[1] - 1
+
+  max_y = board_x - 1
+  max_x = board_y - 1
+  
+  moving = move(direction)
+  start_x = starting_spot[0] 
+  start_y = starting_spot[1]
+  next_x = moving[0]
+  next_y = moving[1]
+
   # check if it breaks left boundary
-  if (starting_spot[0] + moving[0]) < 0
+  if (start_x + next_x) < 1
   	puts "BOUNDARY BROKEN LEFT"
   # check if it breaks right boundary
-  elsif (starting_spot[0] + moving[0]) >= (board[0]-1)
+  elsif (start_x + next_x) > board_x 
   	puts "BOUNDARY BROKEN RIGHT"
   # check if it breaks upper boundary
-  elsif (starting_spot[1] + moving[1]) < 0
+  elsif (start_y + next_y) < 1
   	puts "BOUNDARY BROKEN UP"
   # check if it breaks bottom boundary
-  elsif (starting_spot[1] + moving[1]) >= (board[1]-1)
+  elsif (start_y + next_y) > board_y
   	puts "BOUNDARY BROKEN BOTTOM"
   else
   	puts "NOT BROKEN"
@@ -82,8 +95,6 @@ print gameboard
 ip = [3, 4]
 
 puts ""
-
-puts check_break_boundary(board_dim, ip, "up")
 
 # Tests
 
@@ -108,6 +119,25 @@ def test_coins
 	puts "Test2 is #{test2}"
 end
 
+def test_boundaries
+  test_left = check_break_boundary([6,6], [1,1], "left")
+  puts "check break boundary left at [1,1] should return true: #{test_left}"
+  test_left_wrong = check_break_boundary([6,6], [2,1], "left")
+  puts "check break boundary left at [2,1] should return false: #{test_left_wrong}"
+  test_right = check_break_boundary([6,6], [5,1], "right")
+  puts "check break boundary right at [5,1] should return true: #{test_right}"
+  test_right_wrong = check_break_boundary([6,6], [4,1], "right")
+  puts "check break boundary right at [4,1] should return false: #{test_right_wrong}"
+  test_up = check_break_boundary([6,6], [1,1], "up")
+  puts "check break boundary up at [1,1] should return true: #{test_up}"
+  test_up_wrong = check_break_boundary([6,6], [1,2], "up")
+  puts "check break boundary up at [1,2] should return false: #{test_up_wrong}"
+  test_down = check_break_boundary([6,6], [5,5], "down")
+  puts "check break boundary up at [5,5] should return true: #{test_down}"
+  test_down_wrong = check_break_boundary([6,6], [5,4], "down")
+  puts "check break boundary up at [5,5] should return false: #{test_down_wrong}"
+end
+
 def test_corner_break
   board = set_board(6,6)
   puts ""
@@ -120,9 +150,14 @@ def test_corner_break
   puts "check_break_boundary_corners bottom-left at [0,0] should return [[1,-1], 'up-right': #{test_down_left}" 
 end
 
+puts "ppp"
+print gameboard
+puts "ppp"
+
 test_board
 test_coins
 test_corner_break
+test_boundaries
 
 
 
